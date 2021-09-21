@@ -15,6 +15,10 @@ public class GameController : MonoBehaviour
     // Tambahan Scripting Enemy
     private bool _isGameEnded = false;
 
+    // Tambahan Inheritance
+    private Bird _shotBird;
+    public BoxCollider2D TapCollider;
+
 
     void Start()
     {
@@ -32,12 +36,19 @@ public class GameController : MonoBehaviour
             Enemies[i].OnEnemyDestroyed += CheckGameEnd;
         }
 
+        // Tambahan Inheritance
+        TapCollider.enabled = false;
+
         SlingShooter.InitiateBird(Birds[0]);
+        // Tambahan Inheritance
+        _shotBird = Birds[0];
     }
 
     // Tambahan Eveny delegate
     public void ChangeBird()
     {
+        TapCollider.enabled = false;
+
         // Tambahan Scripting Enemy
         if (_isGameEnded)
         {
@@ -73,5 +84,16 @@ public class GameController : MonoBehaviour
     {
         TrailController.SetBird(bird);
         StartCoroutine(TrailController.SpawnTrail());
+        // Tambahan Inheritance
+        TapCollider.enabled = true;
+    }
+
+    // Tambahan Inheritance
+    void OnMouseUp()
+    {
+        if(_shotBird != null)
+        {
+            _shotBird.OnTap();
+        }
     }
 }
