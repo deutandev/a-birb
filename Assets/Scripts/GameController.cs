@@ -9,6 +9,8 @@ public class GameController : MonoBehaviour
     public List<Bird> Birds;
     // Tambahan Scripting Enemy
     public List<Enemy> Enemies;
+    
+    public TrailController TrailController;
 
     // Tambahan Scripting Enemy
     private bool _isGameEnded = false;
@@ -20,6 +22,8 @@ public class GameController : MonoBehaviour
         for(int i = 0; i < Birds.Count; i++)
         {
             Birds[i].OnBirdDestroyed += ChangeBird;
+            // Tambahan Scripting COntroller
+            Birds[i].OnBirdShot += AssignTrail;
         }
 
         // Tamabhan Scripting ENemy
@@ -62,5 +66,12 @@ public class GameController : MonoBehaviour
         {
             _isGameEnded = true;
         }
+    }
+
+    // Tambahan Scripting trail
+    public void AssignTrail(Bird bird)
+    {
+        TrailController.SetBird(bird);
+        StartCoroutine(TrailController.SpawnTrail());
     }
 }
